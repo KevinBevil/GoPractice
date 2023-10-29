@@ -11,40 +11,66 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
+	"unicode/utf8"
 )
 
 // ---------------------------------------------------------
-// EXERCISE: Arg Count
+// EXERCISE: Vowel or Consonant
 //
-//  1. Get arguments from command-line.
-//  2. Print the expected outputs below depending on the number
-//     of arguments.
+//  Detect whether a letter is vowel or consonant.
+//
+// NOTE
+//  y or w is called a semi-vowel.
+//  Check out: https://www.merriam-webster.com/words-at-play/why-y-is-sometimes-a-vowel-usage
+//  Check out: https://www.dictionary.com/e/w-vowel/
+//
+// HINT
+//  + You can find the length of an argument using the len function.
+//
+//  + len(os.Args[1]) will give you the length of the 1st argument.
+//
+// BONUS
+//  Use strings.IndexAny function to detect the vowels.
+//  Search on Google for: golang pkg strings IndexAny
+//
+// Furthermore, you can also use strings.ContainsAny. Check out: https://golang.org/pkg/strings/#ContainsAny
 //
 // EXPECTED OUTPUT
 //  go run main.go
-//    Give me args
+//    Give me a letter
 //
-//  go run main.go hello
-//    There is one: "hello"
+//  go run main.go hey
+//    Give me a letter
 //
-//  go run main.go hi there
-//    There are two: "hi there"
+//  go run main.go a
+//    "a" is a vowel.
 //
-//  go run main.go I wanna be a gopher
-//    There are 5 arguments
+//  go run main.go y
+//    "y" is sometimes a vowel, sometimes not.
+//
+//  go run main.go w
+//    "w" is sometimes a vowel, sometimes not.
+//
+//  go run main.go x
+//    "x" is a consonant.
 // ---------------------------------------------------------
 
 func main() {
 
-	argCount := len(os.Args[1:])
-	if argCount == 0 {
-		fmt.Println("Give me args")
-	} else if argCount == 1 {
-		fmt.Printf("There is one: %q\n", os.Args[1])
-	} else if argCount == 2 {
-		fmt.Printf("There are two: \"%s %s\"\n", os.Args[1], os.Args[2])
-	} else if argCount > 2 {
-		fmt.Printf("There are %d arguments\n", len(os.Args[1:]))
+	onlyOneArg, onlyOneLetter := len(os.Args[1:]) == 1, utf8.RuneCountInString(os.Args[1]) == 1
+
+	if onlyOneArg && onlyOneLetter {
+		letter := os.Args[1]
+		if strings.ContainsAny(letter, "aeio") {
+			fmt.Printf("%q is a vowel.\n", letter)
+		} else if strings.ContainsAny(letter, "yw") {
+			fmt.Printf("%q is sometimes a vowel, sometimes not.\n", letter)
+		} else {
+			fmt.Printf("%q is a consonant.\n", letter)
+		}
+	} else {
+		fmt.Println("Give me a letter")
 	}
 
 }
