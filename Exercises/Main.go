@@ -8,6 +8,11 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+)
+
 // ---------------------------------------------------------
 // EXERCISE: Arg Count
 //
@@ -30,4 +35,16 @@ package main
 // ---------------------------------------------------------
 
 func main() {
+
+	argCount := len(os.Args[1:])
+	if argCount == 0 {
+		fmt.Println("Give me args")
+	} else if argCount == 1 {
+		fmt.Printf("There is one: %q\n", os.Args[1])
+	} else if argCount == 2 {
+		fmt.Printf("There are two: \"%s %s\"\n", os.Args[1], os.Args[2])
+	} else if argCount > 2 {
+		fmt.Printf("There are %d arguments\n", len(os.Args[1:]))
+	}
+
 }
