@@ -8,47 +8,26 @@
 
 package main
 
-import (
-	"fmt"
-	"os"
-)
-
 // ---------------------------------------------------------
-// EXERCISE: Greet More People
+// EXERCISE: Arg Count
 //
-// RESTRICTIONS
-//  1. Be sure to match the expected output below
-//  2. Store the length of the arguments in a variable
-//  3. Store all the arguments in variables as well
-//
-// INPUT
-//  bilbo balbo bungo
+//  1. Get arguments from command-line.
+//  2. Print the expected outputs below depending on the number
+//     of arguments.
 //
 // EXPECTED OUTPUT
-//  There are 3 people!
-//  Hello great bilbo !
-//  Hello great balbo !
-//  Hello great bungo !
-//  Nice to meet you all.
+//  go run main.go
+//    Give me args
+//
+//  go run main.go hello
+//    There is one: "hello"
+//
+//  go run main.go hi there
+//    There are two: "hi there"
+//
+//  go run main.go I wanna be a gopher
+//    There are 5 arguments
 // ---------------------------------------------------------
 
 func main() {
-	// TYPE YOUR CODE HERE
-
-	// fmt.Println("There are", len(os.Args[1:]), "people!")
-	// fmt.Println("Hello", os.Args[1], "!")
-	// fmt.Println("Hello", os.Args[2], "!")
-	// fmt.Println("Hello", os.Args[3], "!")
-	// fmt.Println("Nice to meet you all.")
-	// BONUS #1:
-	// Observe the error if you pass less then 3 arguments.
-	// Search on the web how to solve that.
-	fmt.Println("There are", len(os.Args[1:]), "people!")
-
-	for _, name := range os.Args[1:] {
-		fmt.Println("Hello", name, "!")
-	}
-
-	fmt.Println("Nice to meet you all.")
-
 }
