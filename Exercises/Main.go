@@ -10,67 +10,117 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
-	"unicode/utf8"
+	"time"
 )
 
 // ---------------------------------------------------------
-// EXERCISE: Vowel or Consonant
+// EXERCISE: Days in a Month
 //
-//  Detect whether a letter is vowel or consonant.
+//	Print the number of days in a given month.
 //
-// NOTE
-//  y or w is called a semi-vowel.
-//  Check out: https://www.merriam-webster.com/words-at-play/why-y-is-sometimes-a-vowel-usage
-//  Check out: https://www.dictionary.com/e/w-vowel/
+// RESTRICTIONS
 //
-// HINT
-//  + You can find the length of an argument using the len function.
+//  1. On a leap year, february should print 29. Otherwise, 28.
 //
-//  + len(os.Args[1]) will give you the length of the 1st argument.
+//     Set your computer clock to 2020 to see whether it works.
 //
-// BONUS
-//  Use strings.IndexAny function to detect the vowels.
-//  Search on Google for: golang pkg strings IndexAny
+//  2. It should work case-insensitive. See below.
 //
-// Furthermore, you can also use strings.ContainsAny. Check out: https://golang.org/pkg/strings/#ContainsAny
+//     Search on Google: golang pkg strings ToLower
+//
+//  3. Get the current year using the time.Now()
+//
+//     Search on Google: golang pkg time now year
 //
 // EXPECTED OUTPUT
-//  go run main.go
-//    Give me a letter
 //
-//  go run main.go hey
-//    Give me a letter
+//	-----------------------------------------
+//	Your solution should not accept invalid months
+//	-----------------------------------------
+//	go run main.go
+//	  Give me a month name
 //
-//  go run main.go a
-//    "a" is a vowel.
+//	go run main.go sheep
+//	  "sheep" is not a month.
 //
-//  go run main.go y
-//    "y" is sometimes a vowel, sometimes not.
+//	-----------------------------------------
+//	Your solution should handle the leap years
+//	-----------------------------------------
+//	go run main.go january
+//	  "january" has 31 days.
 //
-//  go run main.go w
-//    "w" is sometimes a vowel, sometimes not.
+//	go run main.go february
+//	  "february" has 28 days.
 //
-//  go run main.go x
-//    "x" is a consonant.
+//	go run main.go march
+//	  "march" has 31 days.
+//
+//	go run main.go april
+//	  "april" has 30 days.
+//
+//	go run main.go may
+//	  "may" has 31 days.
+//
+//	go run main.go june
+//	  "june" has 30 days.
+//
+//	go run main.go july
+//	  "july" has 31 days.
+//
+//	go run main.go august
+//	  "august" has 31 days.
+//
+//	go run main.go september
+//	  "september" has 30 days.
+//
+//	go run main.go october
+//	  "october" has 31 days.
+//
+//	go run main.go november
+//	  "november" has 30 days.
+//
+//	go run main.go december
+//	  "december" has 31 days.
+//
+//	-----------------------------------------
+//	Your solution should be case insensitive
+//	-----------------------------------------
+//	go run main.go DECEMBER
+//	  "DECEMBER" has 31 days.
+//
+//	go run main.go dEcEmBeR
+//	  "dEcEmBeR" has 31 days.
+//
 // ---------------------------------------------------------
 
-func main() {
-
-	onlyOneArg, onlyOneLetter := len(os.Args[1:]) == 1, utf8.RuneCountInString(os.Args[1]) == 1
-
-	if onlyOneArg && onlyOneLetter {
-		letter := os.Args[1]
-		if strings.ContainsAny(letter, "aeio") {
-			fmt.Printf("%q is a vowel.\n", letter)
-		} else if strings.ContainsAny(letter, "yw") {
-			fmt.Printf("%q is sometimes a vowel, sometimes not.\n", letter)
-		} else {
-			fmt.Printf("%q is a consonant.\n", letter)
-		}
-	} else {
-		fmt.Println("Give me a letter")
+// Returns number of days in given month of current year as int. Format month as in "January"
+func daysInMonth(m string) int {
+	mTime, err := time.Parse("January", m)
+	if err != nil {
+		log.Fatal(err)
 	}
 
+	// fmt.Println("mTime:", mTime)
+
+	t := time.Date(time.Now().Year(), mTime.Month(), 1, 0, 0, 0, 0, time.UTC)
+	t2 := time.Date(time.Now().Year(), mTime.AddDate(0, 1, 0).Month(), 1, 0, 0, 0, 0, time.UTC)
+	diff := t2.Sub(t)
+	days := int(diff.Hours() / 24)
+	return days
+}
+
+func main() {
+	if len(os.Args) > 1 {
+		if strings.ContainsAny(strings.ToLower(os.Args[1]), "january february march april may june july august september october november december") {
+
+			num := daysInMonth(strings.ToTitle(strings.ToLower(os.Args[1])))
+			fmt.Printf("%q has %d days.\n", os.Args[1], num)
+
+		}
+	} else {
+		fmt.Println("Give me a month name")
+	}
 }
