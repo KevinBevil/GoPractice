@@ -41,7 +41,9 @@ import (
 func main() {
 
 	// credMap holds usernames/passwords as key/value pairs
-	credMap := map[string]string{"jack": "1888"}
+	credMap := map[string]string{"jack": "1888", "inanc": "1879"}
+
+	loginValid, credValid := false, false
 
 	// if 2 entries have not been entered, cease program with usage info
 	if len(os.Args) != 3 {
@@ -54,12 +56,18 @@ func main() {
 	// For each key/value pair, we compare username/password with the pairs in the vault
 	for k, v := range credMap {
 		if username == k && password == v {
-			fmt.Printf("Access granted to %q\n", username)
+			credValid = true
+			break
 		} else if username == k {
-			fmt.Printf("Invalid password for %q\n", username)
-		} else {
-			fmt.Printf("Access denied for %q.\n", username)
+			loginValid = true
+			break
 		}
 	}
-
+	if credValid {
+		fmt.Printf("Access granted to %q\n", username)
+	} else if loginValid {
+		fmt.Printf("Invalid password for %q\n", username)
+	} else {
+		fmt.Printf("Access denied for %q.\n", username)
+	}
 }
