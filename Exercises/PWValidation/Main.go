@@ -40,6 +40,13 @@ import (
 
 func main() {
 
+	const (
+		usage    = "Usage: [username] [password]"
+		errUser  = "Access denied for %q.\n"
+		errPwd   = "Invalid password for %q.\n"
+		accessOK = "Access granted to %q.\n"
+	)
+
 	// credMap holds usernames/passwords as key/value pairs
 	credMap := map[string]string{"jack": "1888", "inanc": "1879"}
 
@@ -47,7 +54,7 @@ func main() {
 
 	// if 2 entries have not been entered, cease program with usage info
 	if len(os.Args) != 3 {
-		fmt.Println("Usage: [username] [password]")
+		fmt.Println(usage)
 		return
 	}
 	// Takes in username/password from user - standard in
@@ -63,11 +70,12 @@ func main() {
 			break
 		}
 	}
+	// After looping through cred map, if valid cred was found or if only valid login was found, report, else 'Access denied'
 	if credValid {
-		fmt.Printf("Access granted to %q\n", username)
+		fmt.Printf(accessOK, username)
 	} else if loginValid {
-		fmt.Printf("Invalid password for %q\n", username)
+		fmt.Printf(errPwd, username)
 	} else {
-		fmt.Printf("Access denied for %q.\n", username)
+		fmt.Printf(errUser, username)
 	}
 }
