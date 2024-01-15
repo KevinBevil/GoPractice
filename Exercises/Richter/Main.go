@@ -81,7 +81,6 @@ func main() {
 		fmt.Println("Give me the magnitude of the earthquake.")
 		return
 	}
-
 	if n, err := strconv.ParseFloat(os.Args[1], 32); err != nil {
 		fmt.Println("I couldn't get that, sorry.")
 		return
